@@ -142,6 +142,7 @@ public class FormInicioSesion extends javax.swing.JFrame {
             
             while (rs.next()) {
                 System.out.println(rs.getString("matricula"));
+                System.out.println("hola");
             }
         } catch (SQLException e) {
             // si no se cumplen todos los datos ingresados dara una excepcion con sqlException

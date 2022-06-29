@@ -26,7 +26,7 @@ public class ConnectionDB {
 
             System.out.println("Se conecto Correctamente");
         }catch (Exception e){
-            //Si se genera algun error lo capturamos y mostramos
+            //Si se genera algun error lo capturamos y mostramos en pantalla
             System.out.println(e);
         }
         return cn;
