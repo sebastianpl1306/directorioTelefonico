@@ -129,30 +129,51 @@ public class FormInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        
+        
+        String usuario= txtUsuario.getText();
+        String pass= txtPassword.getText();
+        
+        if(pass.isEmpty()||usuario.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ambos campos son Obligatorios");
+        }else {
+            
         try {
             //Crear una nueva conexion a la base de datos
             Connection con = cx.cadena_conexion();
             PreparedStatement ps;
             ResultSet rs;
             
-            ps = con.prepareStatement("SELECT  matricula,nombre,edad,sexo,email FROM personas WHERE id =1");
+            ps = con.prepareStatement("SELECT  documento,usuario,clave,fechaCreacion,fechaActualizacion FROM usuarios WHERE usuario =? AND clave =?");
             
+            ps.setString(1, usuario);
+            ps.setString(2, pass);
             rs = ps.executeQuery();
             
+            boolean incorrecto=false;
             while (rs.next()) {
-                System.out.println(rs.getString("matricula"));
-                System.out.println("hola");
+                System.out.println(rs.getString("clave"));
+                System.out.println("Bienvenido");
+                incorrecto=true;
             }
+            
+            if (incorrecto==false){
+              JOptionPane.showMessageDialog(null, "Usuario o Clave Incorrecta");
+            }else{
+                FormContactos login= new FormContactos();
+                login.setVisible(true);
+                this.setVisible(false);
+            }
+            
         } catch (SQLException e) {
             // si no se cumplen todos los datos ingresados dara una excepcion con sqlException
             // y un mensaje por pantalla 
 
             JOptionPane.showMessageDialog(null, e.toString());
-
+        
         }
     }//GEN-LAST:event_btnLoginActionPerformed
-
+}
     /**
      * @param args the command line arguments
      */
