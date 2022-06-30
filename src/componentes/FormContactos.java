@@ -27,6 +27,8 @@ public class FormContactos extends javax.swing.JFrame {
         initComponents();
         cargarTabla();
         this.setLocationRelativeTo(null);
+        btnEditarContacto.setVisible(false);
+        btnEliminarContacto.setVisible(false);
     }
     
     public static String documento = "";
@@ -53,6 +55,7 @@ public class FormContactos extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnCrearContacto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -101,12 +104,18 @@ public class FormContactos extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Directorio Télefonico");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -114,7 +123,9 @@ public class FormContactos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                    .addComponent(jLabel14))
                 .addContainerGap())
         );
 
@@ -384,7 +395,10 @@ public class FormContactos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Desea cerrar Sesión?");
+        if(confirm == 0){
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnCrearContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearContactoActionPerformed
@@ -394,7 +408,37 @@ public class FormContactos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearContactoActionPerformed
 
     private void btnEliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarContactoActionPerformed
-        // TODO add your handling code here:
+        // boton de guardar 
+        int documento = Integer.parseInt(txtDocumento.getText());
+
+        // se crea un try catch para  
+        // se conecta a la tabla alumnos de la base de datos sql server
+        //preparedstatment se insertan dichos datos a la base de datos 
+        try {
+            int confirm = JOptionPane.showConfirmDialog(null, "¿Desea Eliminar el registro?");
+            if(confirm == 0){
+                Connection con = cx.cadena_conexion();
+                PreparedStatement ps = con.prepareStatement("UPDATE datosPersonales SET activo=0 WHERE documento=?");
+
+                ps.setInt(1, documento);
+
+                // ps.execute udate // se guardan
+                ps.executeUpdate();
+
+                // se guarda el registro de todo los datos en la intefaz
+                // y se agrega el metodo limpiar para borrar todo al precionarlo
+                JOptionPane.showMessageDialog(null, "Registro Eliminado");
+                // se agrega el metodo para cargar la tabla
+                cargarTabla();
+                limpiar();
+            }
+        } catch (SQLException e) {
+            // si no se cumplen todos los datos ingresados dara una excepcion con sqlException
+            // y un mensaje por pantalla 
+
+            JOptionPane.showMessageDialog(null, e.toString());
+
+        }
     }//GEN-LAST:event_btnEliminarContactoActionPerformed
 
     private void tableContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableContactosMouseClicked
@@ -408,7 +452,7 @@ public class FormContactos extends javax.swing.JFrame {
             
             // llamamos de nuevo la tabla alumnos 
             // selecionamos los datos  para mostralos en la interzas
-            ps = con.prepareStatement("SELECT documento,nombreCompleto,direccion,ciudad,barrio,genero,fechaNacimiento,ciudadNacimiento,paisNacimiento,telefono,codPais FROM datosPersonales WHERE documento =?");
+            ps = con.prepareStatement("SELECT documento,nombreCompleto,direccion,ciudad,barrio,genero,fechaNacimiento,ciudadNacimiento,paisNacimiento,telefono,telefonoEmergencia,codPais FROM datosPersonales WHERE documento =?");
             // guardar
             // rellena datos en la columna
             ps.setString(1, id);
@@ -428,7 +472,9 @@ public class FormContactos extends javax.swing.JFrame {
                 txtCodigoPais.setText(rs.getString("codPais"));
                 txtTelefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
             }
-
+            
+            btnEditarContacto.setVisible(true);
+            btnEliminarContacto.setVisible(true);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
 
@@ -524,6 +570,21 @@ public class FormContactos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    private void limpiar(){
+        txtDocumento.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtBarrio.setText("");
+        txtCiudad.setText("");
+        txtCodigoPais.setText("");
+        txtGenero.setText("");
+        txtFechaNacimiento.setText("");
+        txtCiudadNacimiento.setText("");
+        txtPaisNacimiento.setText("");
+        txtTelefono.setText("");
+        txtTelefonoEmergencia.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrarSesion;
@@ -535,6 +596,7 @@ public class FormContactos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
