@@ -28,6 +28,19 @@ public class FormContactos extends javax.swing.JFrame {
         cargarTabla();
         this.setLocationRelativeTo(null);
     }
+    
+    public static String documento = "";
+    public static String nombre = "";
+    public static String direccion = "";
+    public static String barrio = "";
+    public static String ciudad = "";
+    public static String codigoPais = "";
+    public static String genero = "";
+    public static String fechaNaci = "";
+    public static String ciudadNaci = "";
+    public static String paisNaci = "";
+    public static String telefono = "";
+    public static String telefonoEmer = "";
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +83,8 @@ public class FormContactos extends javax.swing.JFrame {
         txtPaisNacimiento = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JLabel();
         txtCodigoPais = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtTelefonoEmergencia = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -160,6 +175,11 @@ public class FormContactos extends javax.swing.JFrame {
 
         btnEditarContacto.setBackground(new java.awt.Color(51, 255, 51));
         btnEditarContacto.setText("Editar Contacto");
+        btnEditarContacto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarContactoActionPerformed(evt);
+            }
+        });
 
         btnEliminarContacto.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminarContacto.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,6 +189,8 @@ public class FormContactos extends javax.swing.JFrame {
                 btnEliminarContactoActionPerformed(evt);
             }
         });
+
+        jLabel13.setText("Télefono Emergencia:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -222,7 +244,11 @@ public class FormContactos extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDireccion)))
+                                .addComponent(txtDireccion))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTelefonoEmergencia)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 25, Short.MAX_VALUE)
@@ -267,7 +293,9 @@ public class FormContactos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel12))
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel13))
                             .addComponent(txtBarrio)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
@@ -286,7 +314,10 @@ public class FormContactos extends javax.swing.JFrame {
                                 .addComponent(txtTelefono))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(168, 168, 168)
-                                .addComponent(txtCodigoPais))))
+                                .addComponent(txtCodigoPais))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(196, 196, 196)
+                                .addComponent(txtTelefonoEmergencia))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(txtDocumento))
@@ -357,7 +388,9 @@ public class FormContactos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnCrearContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearContactoActionPerformed
-        // TODO add your handling code here:
+        FormDirectorio formularioRegistro = new FormDirectorio();
+        formularioRegistro.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnCrearContactoActionPerformed
 
     private void btnEliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarContactoActionPerformed
@@ -393,13 +426,7 @@ public class FormContactos extends javax.swing.JFrame {
                 txtPaisNacimiento.setText(rs.getString("paisNacimiento"));
                 txtTelefono.setText(rs.getString("telefono"));
                 txtCodigoPais.setText(rs.getString("codPais"));
-                // si es masuclino la eleccion 
-                /*if (rs.getString("sexo").equals("M")) {
-                    rbMasculino.setSelected(true);
-                    // si es femenino la eleccion se usa un . equals para comparar 
-                } else if (rs.getString("sexo").equals("F")) {
-                    rbFemenino.setSelected(true);
-                }*/
+                txtTelefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
             }
 
         } catch (SQLException e) {
@@ -407,6 +434,24 @@ public class FormContactos extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_tableContactosMouseClicked
+
+    private void btnEditarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarContactoActionPerformed
+        documento = txtDocumento.getText();
+        nombre = txtNombre.getText();
+        direccion = txtDireccion.getText();
+        barrio = txtBarrio.getText();
+        ciudad = txtCiudad.getText();
+        codigoPais = txtCodigoPais.getText();
+        genero = txtGenero.getText();
+        fechaNaci = txtFechaNacimiento.getText();
+        ciudadNaci = txtCiudadNacimiento.getText();
+        paisNaci = txtPaisNacimiento.getText();
+        telefono = txtTelefono.getText();
+        telefonoEmer = txtTelefonoEmergencia.getText();
+        FormDirectorio formularioRegistro = new FormDirectorio();
+        formularioRegistro.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnEditarContactoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -489,6 +534,7 @@ public class FormContactos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -513,5 +559,6 @@ public class FormContactos extends javax.swing.JFrame {
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtPaisNacimiento;
     private javax.swing.JLabel txtTelefono;
+    private javax.swing.JLabel txtTelefonoEmergencia;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,7 +4,6 @@
  */
 package componentes;
 
-import com.microsoft.sqlserver.jdbc.SQLServerStatementColumnEncryptionSetting;
 import java.io.File;
 import java.sql.*;
 import java.io.FileWriter;
@@ -41,8 +40,23 @@ public class FormDirectorio extends javax.swing.JFrame {
         btnGr = new ButtonGroup();
         btnGr.add(rbmasculino);
         btnGr.add(rbfemenino);
-        // se ejecutara para cargar la tabla siempre que inicie el programa
-        //cargartabla();
+        this.setLocationRelativeTo(null);
+        llenarCampos();
+    }
+    
+    private void llenarCampos(){
+        FormContactos infoUsuarios = new FormContactos();
+        txtid.setText(infoUsuarios.documento);
+        txtnombre.setText(infoUsuarios.nombre);
+        txtdireccionResidencia.setText(infoUsuarios.direccion);
+        txtbarrio.setText(infoUsuarios.barrio);
+        txtciudadResc.setText(infoUsuarios.ciudad);
+        txtCodigoPais.setText(infoUsuarios.codigoPais);
+        txtFechaNacimiento.setText(infoUsuarios.fechaNaci);
+        txtciudadNacimiento.setText(infoUsuarios.ciudadNaci);
+        txtPaisNacimiento.setText(infoUsuarios.paisNaci);
+        txtTelefonoPrincipal.setText(infoUsuarios.telefono);
+        txtTelefonoEmerg.setText(infoUsuarios.telefonoEmer);
     }
 
     /**
