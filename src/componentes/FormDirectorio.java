@@ -4,6 +4,8 @@
  */
 package componentes;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.*;
 import java.io.FileWriter;
@@ -24,7 +26,7 @@ import modelos.ConnectionDB;
  *
  * @author Daniela
  */
-public class FormDirectorio extends javax.swing.JFrame {
+public class FormDirectorio extends javax.swing.JFrame implements ActionListener{
     ConnectionDB cn = new ConnectionDB();
     PreparedStatement ps;
     
@@ -101,6 +103,7 @@ public class FormDirectorio extends javax.swing.JFrame {
         txtTelefonoPrincipal = new javax.swing.JTextField();
         LabelTelefonoE = new javax.swing.JLabel();
         txtTelefonoEmerg = new javax.swing.JTextField();
+        ButtonAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,7 +146,7 @@ public class FormDirectorio extends javax.swing.JFrame {
             }
         });
 
-        btnmodificar.setText("Modificar");
+        btnmodificar.setText("Guardar Cambios");
         btnmodificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnmodificarActionPerformed(evt);
@@ -342,6 +345,13 @@ public class FormDirectorio extends javax.swing.JFrame {
                     .addContainerGap(119, Short.MAX_VALUE)))
         );
 
+        ButtonAtras.setText("Atras");
+        ButtonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -355,7 +365,9 @@ public class FormDirectorio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
+                        .addGap(29, 29, 29)
+                        .addComponent(ButtonAtras)
+                        .addGap(58, 58, 58)
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -363,7 +375,11 @@ public class FormDirectorio extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(ButtonAtras)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -443,20 +459,21 @@ public class FormDirectorio extends javax.swing.JFrame {
         //preparedstatment se insertan dichos datos a la base de datos
         try {
             Connection con = cn.cadena_conexion();
-            PreparedStatement ps = con.prepareStatement("UPDATE datosPersonales SET nombre=?,DireccionResc=?,BarrioResc=?,CiudadResc=?,CodigoPais=?,genero=?,FechaNacimiento=?,CiudadNacimiento=?,PaisNacimiento=?,TelefonoPrincipal=?,TelefonoEmergencia=?,activo=? WHERE id=?");
+            PreparedStatement ps = con.prepareStatement("UPDATE datosPersonales SET nombreCompleto=?,direccion=?,ciudad=?,barrio=?,genero=?,FechaNacimiento=?,ciudadNacimiento=?,paisNacimiento=?,telefono=?,telefonoEmergencia=?,codPais=?,activo=? WHERE documento=?");
 
-            ps.setString(1, id);
-            ps.setString(2, nombre);
-            ps.setString(3, DireccionResc);
+            ps.setString(1, nombre);
+            ps.setString(2, DireccionResc);
+            ps.setString(3, CiudadResc);
             ps.setString(4, BarrioResc);
-            ps.setString(5, CiudadResc);
-            ps.setString(6, CodigoPais);
-            ps.setString(7, genero);
-            ps.setString(8, FechaNacimiento);
-            ps.setString(9, CiudadNacimiento);
-            ps.setString(10, PaisNacimiento);
-            ps.setString(11, TelefonoPrincipal);
-            ps.setString(12, TelefonoEmergencia);
+            ps.setString(5, genero);
+            ps.setString(6, FechaNacimiento);
+            ps.setString(7, CiudadNacimiento);
+            ps.setString(8, PaisNacimiento);
+            ps.setString(9, TelefonoPrincipal);
+            ps.setString(10, TelefonoEmergencia);
+            ps.setString(11, CodigoPais);
+            ps.setInt(12, 1);
+            ps.setString(13, id);
             
             // ps.execute udate // se guardan
             ps.executeUpdate();
@@ -505,7 +522,7 @@ public class FormDirectorio extends javax.swing.JFrame {
         // se conecta a la tabla directorio de la base de datos sql serverd, se insertan dichos datos a la base de datos
         try {
             Connection con = cn.cadena_conexion();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO datosPersonales(documento,nombreCompleto,direccion,barrio,ciudad, codPais,genero,fechaNacimiento,ciudadNacimiento,paisNacimiento,telefono,telefonoEmergencia,activo)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO datosPersonales(documento,nombreCompleto,direccion,barrio,ciudad,codPais,genero,fechaNacimiento,ciudadNacimiento,paisNacimiento,telefono,telefonoEmergencia,activo)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             ps.setString(1, id);
             ps.setString(2, nombre);
@@ -539,6 +556,8 @@ public class FormDirectorio extends javax.swing.JFrame {
 
         }
         
+       
+        
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtdireccionResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionResidenciaActionPerformed
@@ -565,6 +584,16 @@ public class FormDirectorio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoPrincipalActionPerformed
 
+    private void ButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAtrasActionPerformed
+        // se agrega la accion de regresar a la pagina anterior (atras)
+
+        //Object evt = evt.getSource(); 
+            FormContactos FormularioContactos = new FormContactos(); 
+            FormularioContactos.setVisible(true);
+            this.setVisible(false);
+    }//GEN-LAST:event_ButtonAtrasActionPerformed
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -601,6 +630,7 @@ public class FormDirectorio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAtras;
     private javax.swing.JLabel LabelBarrio;
     private javax.swing.JLabel LabelCiudadN;
     private javax.swing.JLabel LabelCiudadResc;
@@ -635,4 +665,9 @@ public class FormDirectorio extends javax.swing.JFrame {
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtnombre;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
