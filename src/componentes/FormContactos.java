@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package componentes;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,6 +94,8 @@ public class FormContactos extends javax.swing.JFrame {
         txtCodigoPais = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtTelefonoEmergencia = new javax.swing.JLabel();
+        btnImportar = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -345,18 +353,32 @@ public class FormContactos extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
+        btnImportar.setText("Importar");
+
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnImportar)
+                        .addGap(5, 5, 5)
+                        .addComponent(btnExportar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCrearContacto)))
                 .addContainerGap())
         );
@@ -364,7 +386,10 @@ public class FormContactos extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnCrearContacto)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearContacto)
+                    .addComponent(btnImportar)
+                    .addComponent(btnExportar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -499,7 +524,109 @@ public class FormContactos extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnEditarContactoActionPerformed
 
-    /**
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        File archivo;
+        FileWriter escribir;
+        PrintWriter linea;
+        
+        String documento, nombreCompleto, direccion, ciudad, barrio, genero,ciudadNacimiento, pais, fechaNacimiento,telefono, codigo, telefonoEmergencia;
+        
+        documento = "";
+        nombreCompleto = "";
+        direccion = "";
+        ciudad = "";
+        barrio  = "";
+        genero  = "";
+        ciudadNacimiento  = "";
+        pais = "";
+        fechaNacimiento= "";
+        telefono="";
+        codigo="";
+        telefonoEmergencia= "";
+        
+        archivo = new File("usuario.txt");
+        
+        if (!archivo.exists()) {
+            try {
+                archivo.createNewFile();
+                documento = txtDocumento.getText();
+                nombreCompleto = txtNombre.getText();
+                genero = txtGenero.getText();
+                direccion = txtDireccion.getText();
+                ciudad = txtCiudad.getText();
+                barrio = txtBarrio.getText();
+                ciudadNacimiento = txtCiudadNacimiento.getText();
+                pais = txtPaisNacimiento.getText();
+                fechaNacimiento = txtFechaNacimiento.getText();
+                telefono = txtTelefono.getText();
+                codigo = txtCodigoPais.getText();
+                telefonoEmergencia = txtTelefonoEmergencia.getText();
+                
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+
+                //
+                linea.println(documento);
+                linea.println(nombreCompleto);
+                linea.println(direccion);
+                linea.println(ciudad);
+                linea.println(barrio);
+                linea.println(genero);
+                linea.println(ciudadNacimiento);
+                linea.println(pais);
+                linea.println(fechaNacimiento);
+                linea.println(telefono);
+                linea.println(codigo);
+                linea.println(telefonoEmergencia);
+                linea.close();
+                escribir.close();
+                JOptionPane.showMessageDialog(null,"Registro Exitoso");
+               
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString());
+        }  
+        }else {
+            try {
+                archivo.createNewFile();
+                documento = txtDocumento.getText();
+                nombreCompleto = txtNombre.getText();
+                genero = txtGenero.getText();
+                direccion = txtDireccion.getText();
+                ciudad = txtCiudad.getText();
+                barrio = txtBarrio.getText();
+                ciudadNacimiento = txtCiudadNacimiento.getText();
+                pais = txtPaisNacimiento.getText();
+                fechaNacimiento = txtFechaNacimiento.getText();
+                telefono = txtTelefono.getText();
+                codigo = txtCodigoPais.getText();
+                telefonoEmergencia = txtTelefonoEmergencia.getText();
+                
+             
+                escribir = new FileWriter(archivo, true);
+                linea = new PrintWriter(escribir);
+
+                //
+                linea.println("Documento: "+documento);
+                linea.println("Nombres: "+nombreCompleto);
+                linea.println("Direcciòn: "+direccion);
+                linea.println("Ciudad: "+ciudad);
+                linea.println("Barrio: "+barrio);
+                linea.println("Ciudad de Nacimiento: "+ciudadNacimiento);
+                linea.println("Paìs: "+pais);
+                linea.println("Fecha de Nacimiento: "+fechaNacimiento);
+                linea.println("Telefono: "+telefono);
+                linea.println("Codigo Pais: "+codigo);
+                linea.println("Telefono de Emergencia: "+telefonoEmergencia);
+                
+                linea.close();
+                escribir.close();
+                JOptionPane.showMessageDialog(null,"Registro Exitoso");
+        } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString());
+        }   }               
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    /** 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -591,6 +718,8 @@ public class FormContactos extends javax.swing.JFrame {
     private javax.swing.JButton btnCrearContacto;
     private javax.swing.JButton btnEditarContacto;
     private javax.swing.JButton btnEliminarContacto;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnImportar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

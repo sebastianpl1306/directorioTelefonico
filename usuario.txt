@@ -1,0 +1,23 @@
+
+Documento: 000
+Nombres: sebastian pabon lopez
+Direcciòn: Calle 80 N° 69B - 07
+Ciudad: Bogotá
+Barrio: Kennedy
+Ciudad de Nacimiento: Bogotá
+Paìs: Colombia
+Fecha de Nacimiento: 2001-06-13
+Telefono: 3223142488
+Codigo Pais: 57
+Telefono de Emergencia: 3223588466
+Documento: 000
+Nombres: sebastian pabon lopez
+Direcciòn: Calle 80 N° 69B - 07
+Ciudad: Bogotá
+Barrio: Kennedy
+Ciudad de Nacimiento: Bogotá
+Paìs: Colombia
+Fecha de Nacimiento: 2001-06-13
+Telefono: 3223142488
+Codigo Pais: 57
+Telefono de Emergencia: 3223588466

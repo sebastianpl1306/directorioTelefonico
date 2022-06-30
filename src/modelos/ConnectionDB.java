@@ -22,7 +22,7 @@ public class ConnectionDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             
             //Realizar el string de conexión a la base de datos
-            cn = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=directorio;user=sa;password=123456;encrypt=true;trustServerCertificate=true");
+            cn = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=directorio;user=sa;password=12345;encrypt=true;trustServerCertificate=true");
 
             System.out.println("Se conecto Correctamente");
         }catch (Exception e){
